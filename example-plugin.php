@@ -2,12 +2,28 @@
 /**
  * Plugin Name: Example Plugin
  * Description: Example Plugin core plugin.
- * Version:     0.1.0
- * Author:      Kellen Mace
- * Author URI:  https://kellenmace.com/
+ * Version:     1.0.0
+ * Author:      Jon Jakoblich
  * License:     GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
+
+ 
+/**
+ * Plugin Activation
+ */
+register_activation_hook( __FILE__, function() {
+    // Optionally add code to run on plugin activation
+});
+
+
+/**
+ * Plugin Deactivation
+ */
+register_deactivation_hook( __FILE__, function() {
+    // Optionally add code to run on plugin deactivation
+});
+
 
 add_action( 'plugins_loaded', function() {
     $autoload = plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
@@ -46,5 +62,9 @@ add_action( 'plugins_loaded', function() {
 
     require_once $autoload;
 
-    ( new ExamplePlugin\ExamplePlugin() )->run();
+    function ExamplePLugin() {
+        return ExamplePLugin\ExamplePLugin::instance();
+    }
+
+    ExamplePlugin()->run();
 } );

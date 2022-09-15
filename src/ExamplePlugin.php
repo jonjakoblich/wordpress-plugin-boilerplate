@@ -14,6 +14,31 @@ final class ExamplePlugin {
 	private $instances = [];
 
 	/**
+	 * The single instance of the class.
+	 */
+	protected static $_instance = null;
+
+	/**
+	 * Main ExamplePlugin instance.
+	 * 
+	 * @see ExamplePlugin()
+	 * @return ExamplePlugin - Main instance
+	 */
+	public static function instance() {
+		if ( is_null( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+		return self::$_instance;
+	}
+
+	/**
+	 * Get a Hookable instance.
+	 */
+	public function get_instance( string $key ) : Hookable {
+		return $this->instances[$key];
+	}
+
+	/**
 	 * Main method for running the plugin.
 	 */
 	public function run() {
@@ -32,6 +57,8 @@ final class ExamplePlugin {
 	}
 
 	private function get_hookable_instances() {
-        return array_filter( $this->instances, fn( $instance ) => $instance instanceof Hookable );
+        return array_filter( $this->instances, function( $instance ) {
+			return $instance instanceof Hookable;
+		} );
     }
 }
